@@ -128,7 +128,7 @@ public:
 				break;
 			case AVAHI_BROWSER_NEW:
 				if (!ref->resolvers.contains(key))
-					ref->resolvers.insert(key, avahi_s_service_resolver_new(ref->server, interface, protocol, name, type, domain, AVAHI_PROTO_UNSPEC, AVAHI_LOOKUP_USE_MULTICAST, resolveCallback, ref));
+					ref->resolvers.insert(key, avahi_s_service_resolver_new(ref->server, interface, protocol, name, type, domain, protocol, AVAHI_LOOKUP_USE_MULTICAST, resolveCallback, ref));
 				break;
 			case AVAHI_BROWSER_REMOVE:
 				if (!ref->resolvers.contains(key))
