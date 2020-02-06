@@ -266,6 +266,11 @@ QZeroConf::~QZeroConf()
 	delete pri;
 }
 
+bool QZeroConf::isValid()
+{
+    return true;
+}
+
 void QZeroConf::startServicePublish(const char *name, const char *type, const char *domain, quint16 port)
 {
 	DNSServiceErrorType err;

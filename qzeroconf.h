@@ -50,6 +50,8 @@ public:
 	};
     QZeroConf(QObject *parent = Q_NULLPTR);
 	~QZeroConf();
+    // Might be false if avahi fails to bind() the interface
+    bool isValid();
 	void startServicePublish(const char *name, const char *type, const char *domain, quint16 port);
 	void stopServicePublish(void);
 	bool publishExists(void);

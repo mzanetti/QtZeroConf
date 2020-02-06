@@ -1445,6 +1445,28 @@ AvahiServer *avahi_server_new(const AvahiPoll *poll_api, const AvahiServerConfig
     s->multicast_lookup_engine = avahi_multicast_lookup_engine_new(s);
 
     s->monitor = avahi_interface_monitor_new(s);
+
+    // avahi_interface_monitor_new may fail in certain circumstances
+    // i.e. a sandbox policy prevents it, or on some android devices
+    // bind() will fail occationally with EADDRINUSE.
+    // Let's catch this here instead of calling avahi_interface_monitor_sync
+    // which crashes on it...
+    if (!s->monitor) {
+        // We cannot even use avahi_server_free here because that would assert on the failing monitor too...
+        avahi_multicast_lookup_engine_free(s->multicast_lookup_engine);
+        if (s->wide_area_lookup_engine) {
+            avahi_wide_area_engine_free(s->wide_area_lookup_engine);
+        }
+        s->poll_api->watch_free(s->watch_ipv4);
+        s->poll_api->watch_free(s->watch_ipv6);
+
+        avahi_record_list_free(s->record_list);
+        avahi_hashmap_free(s->record_browser_hashmap);
+        avahi_hashmap_free(s->entries_by_key);
+        avahi_time_event_queue_free(s->time_event_queue);
+        avahi_free(s);
+        return NULL;
+    }
     avahi_interface_monitor_sync(s->monitor);
 
     register_localhost(s);

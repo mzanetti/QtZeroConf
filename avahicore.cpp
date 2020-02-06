@@ -58,6 +58,9 @@ public:
 		if (!referenceCount) {
 			server = avahi_server_new(poll, &config, serverCallback, this, &error);
 		}
+        if (!server) {
+            return;
+        }
 		referenceCount++;
 		if (!server) {
 			return;
@@ -288,6 +291,11 @@ QZeroConf::~QZeroConf()
 	if (!pri->referenceCount)
 		avahi_server_free(pri->server);
 	delete pri;
+}
+
+bool QZeroConf::isValid()
+{
+    return pri->server != NULL;
 }
 
 void QZeroConf::startServicePublish(const char *name, const char *type, const char *domain, quint16 port)
