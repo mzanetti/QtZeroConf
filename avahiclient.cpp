@@ -223,7 +223,7 @@ QZeroConf::~QZeroConf()
 	pri->broswerCleanUp();
 	if (pri->client)
 		avahi_client_free(pri->client);
-	delete pri;
+    delete pri;
 }
 
 void QZeroConf::startServicePublish(const char *name, const char *type, const char *domain, quint16 port)
