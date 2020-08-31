@@ -173,12 +173,12 @@ public:
 			else
 				emit ref->pub->serviceUpdated(zcs);
 		}
-		else if (ref->pub->services.contains(key)) {	// delete service if exists and unable to resolve
-			zcs = ref->pub->services[key];
-			ref->pub->services.remove(key);
-			emit ref->pub->serviceRemoved(zcs);
-			// don't delete the resolver here...we need to keep it around so Avahi will keep updating....might be able to resolve the service in the future
-		}
+//		else if (ref->pub->services.contains(key)) {	// delete service if exists and unable to resolve
+//			zcs = ref->pub->services[key];
+//			ref->pub->services.remove(key);
+//			emit ref->pub->serviceRemoved(zcs);
+//			// don't delete the resolver here...we need to keep it around so Avahi will keep updating....might be able to resolve the service in the future
+//		}
 	}
 
 	void broswerCleanUp(void)
